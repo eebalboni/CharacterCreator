@@ -20,10 +20,6 @@ struct MyStories: View {
     @State private var isCreatingStory = false
     @State private var selectedStory: Story? = nil
     @State private var isDetailViewActive = false
-    
-    //image picker used to prompt user
-    @State private var imagePicker: PhotosPickerItem?
-    @State private var selectedImage: Image?
 
     var body: some View {
         NavigationView {
@@ -31,20 +27,19 @@ struct MyStories: View {
                 Text("My Stories").font(.headline)
                 //displaying list of stories and making each a "button"
                 //if they are selected brought to another view displaying chosen story title
-               
-                    List(stories, id: \.uniqueId) { story in
-                        Button(action: {
-                            selectedStory = story
-                            isDetailViewActive = true
-                        }) {
-                            HStack{
-                                Image(systemName: "book.circle").resizable().frame(width:50,height:50)
-                                Text(story.storyTitle)
-                            }
-                           
-                        }
-                        
-                    }
+           //changed this back to a list so items can be deleted
+                List {
+                ForEach(stories) { story in
+                   NavigationLink(destination: StoryDetailView(story: story, stories: $stories)) {
+                       HStack {
+                           Image(systemName: "book.circle")
+                               .resizable()
+                               .frame(width: 50, height: 50)
+                           Text(story.storyTitle)
+                       }
+                   }
+                }.onDelete(perform:deleteStories)
+            }
                 //if the user is creating a story, this is the field that appears
                 HStack{
                     if isCreatingStory {
@@ -60,23 +55,6 @@ struct MyStories: View {
                                     .resizable()
                                     .frame(width: 25, height: 25)
                                     .foregroundColor(.blue)
-                            }
-                            .padding()
-                            PhotosPicker("Select Image", selection: $imagePicker, matching: .images)
-                                .padding()
-                                .border(Color.black)
-                            selectedImage?
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 300, height: 300)
-                        }
-                        .onChange(of: imagePicker) { _ in
-                            Task {
-                                if let loaded = try? await imagePicker?.loadTransferable(type: Image.self) {
-                                    selectedImage = loaded
-                                } else {
-                                    print("Failed")
-                                }
                             }
                         }
                     } else {
@@ -97,6 +75,7 @@ struct MyStories: View {
             .onAppear {
                 loadStories()//this causes the page to refresh when a user creates a new story
             }
+            
             .background(
                 NavigationLink(
                     destination: StoryDetailView(story: selectedStory, stories: $stories),
@@ -148,6 +127,11 @@ struct MyStories: View {
         if let encodedData = try? JSONEncoder().encode(stories) {
             storedStoriesData = encodedData
         }
+    }
+    
+    private func deleteStories(at offSets: IndexSet){
+        stories.remove(atOffsets: offSets)
+        saveStories()
     }
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // character object, has name, age, home, description
-struct Characters: Codable, Identifiable {
+struct StoryCharacter: Codable, Identifiable {
     var id = UUID()
     var name: String
     var age: Int

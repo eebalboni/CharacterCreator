@@ -12,10 +12,10 @@ import SwiftUI
 struct Story: Identifiable, Codable {
     var uniqueId: Int
     var storyTitle: String
-    var characters: [Characters]
+    var characters: [StoryCharacter]
 
     var id: Int {
         return uniqueId
     }
-    
+
 }
