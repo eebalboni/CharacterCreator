@@ -28,4 +28,7 @@ I highly recommend using an IPhone to load the app, however you can use the emul
 3. Then you will clone this repo and open the project with XCode.
 4. Once the project is open on XCode, on the top of your screen next to the project name select the arrow.
      * You may be prompted to select a device type for the emulator. I suggest an IPhone 14 or later.
-5. The project will then begin building, once it is completed a pop up will appear. Then an emulator will appear with the app open ready to go. 
+5. The project will then begin building, once it is completed a pop up will appear. Then an emulator will appear with the app open ready to go.
+
+# How to use CharacterCreator?
+When you first open CharacterCreator you will be taken to the home page. The home page has two tabs, the About (about the application) and the My Stories tab. Select the My Stories tab to see a list of your stories. The default stories displayed are Harry Potter and Red Queen. To add a story, select Create New Story then enter the story title in the text field and select the check button. The page will refresh and your story will be added to the list. Select your story to be taken to the characters page. From there, you are able to create a character by selecting the Add Character Button. Fill in the appropriate fields. When done, swipe down and your character will appear in a list format. 
